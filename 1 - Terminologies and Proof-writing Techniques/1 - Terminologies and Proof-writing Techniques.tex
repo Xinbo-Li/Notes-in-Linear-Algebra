@@ -1,0 +1,123 @@
+\documentclass{article} 
+\headheight=7pt         \topmargin=14pt
+\textheight=574pt       \textwidth=445pt
+\oddsidemargin=18pt     \evensidemargin=18pt
+
+%Begin package import
+
+\usepackage{amsmath, amssymb, amsthm} 
+\usepackage{mathtools} 
+\usepackage{pdfpages} 
+\usepackage{tikz-cd} 
+\usepackage{tikz}
+\usepackage{color,soul}
+\usepackage{graphicx}
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+%End package import
+%Begin custom commands
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\Pow}{\mathrm{Pow}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\Rig}{\mathrm{Rig}}
+\newcommand{\Perm}{\mathrm{Perm}}
+\newcommand{\Span}{\mathrm{span}}
+\newcommand{\Char}{\mathrm{char}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Ext}{\mathrm{Ext}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\im}{\mathrm{Im}}
+\newcommand{\abs}[1]{\lvert #1\rvert} 
+\newcommand{\RM}[1]{\mathrm{#1}} 
+\newcommand{\BF}[1]{\textbf{#1}} 
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./images/}{#1.pdf_tex}
+}
+
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\sign}{sign}
+
+%End custom commands
+%Begin custom theorems
+
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+	\newenvironment{#1}[1]
+	{%
+		\renewcommand\customgenericname{#2}%
+		\renewcommand\theinnercustomgeneric{##1}%
+		\innercustomgeneric
+	}
+	{\endinnercustomgeneric}
+}
+
+
+\newcustomtheorem{THRM}{Theorem} 
+\newcustomtheorem{LEM}{Lemma}
+\newcustomtheorem{EX}{Exercise}
+\newcustomtheorem{COR}{Corollary}
+\newcustomtheorem{DEF}{Definition}
+\newcustomtheorem{PB}{Problem}
+\newcustomtheorem{PROP}{Proposition}
+\newcustomtheorem{CLM}{Claim}
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+\graphicspath{{./img/}}
+
+%End custom theorems
+
+\begin{document}
+
+\section*{Terminologies}
+I shall assume the reader to be already familiar with basic notions from set theory: what is a map; injectivity and surjectivity, Cartesian products, etc. I shall introduce one thing that is often not introduced in set theory, yet are widely used: commutative diagrams. \\
+A basic commutative diagram looks like this, but it could be wilder as you have more subjects and maps to deal with: 
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzAsMiwiQiJdLFsyLDAsIkMiXSxbMiwyLCJEIl0sWzAsMiwiZyJdLFswLDEsImYiLDJdLFsyLDMsInciXSxbMSwzLCJoIiwyXV0=
+\[\begin{tikzcd}
+	A && C \\
+	\\
+	B && D
+	\arrow["g", from=1-1, to=1-3]
+	\arrow["f"', from=1-1, to=3-1]
+	\arrow["w", from=1-3, to=3-3]
+	\arrow["h"', from=3-1, to=3-3]
+\end{tikzcd}\]
+Here $A,B,C,D$ (objects on the ``nodes'') are mathematical subjects. They could be sets, groups, rings, modules, fields, etc. The arrows that connects between different nodes are maps (although in category theory they are generalized as ``functors''). For example, let me read off some information from this diagram: $f: A \to B$; $g: A \to C$; $w: C \to D$; and $h: B \to D$. The diagram ``commutes'' if we pick a starting node and an ending node, any two routes in the diagram that we take are equivalent. For example, let us pick starting point $A$ and ending point $D$ (although they are really not points, they are mathematical objects). Then we have the following relation
+\[h \circ f = w \circ g. \]
+Complicated as it may seem, you should really just treat it as a ``map'' (like Google map). There might be different routes that takes different time to go to your destination (number of functions), but in a diagram that ``commutes'', any route that takes you from here to the destination are equivalent. 
+
+\section*{Proof-writing Techniques}
+Basic proof techniques include: 
+\begin{enumerate}
+    \item Direct proofs: Starting from the condition that you are given, and directly show that another statement is true. 
+    \item Proof by contradiction: Suppose that you are asked to prove ``if $A$ then $B$''. Assuming $A$ is true yet $B$ is not true, you try to derive a contradiction that $A$ is not true, or some conclusions that you yield after $A$ is not true. 
+    \item Induction: Works on any countable set, although mostly used in the case of natural numbers. Whenever you try to prove an argument involving $n \in \N$: for example, show that $2^n \geq 2$ for all $n \in \N$, first prove the ``base case'' (normally it is when $n = 1$, but it might vary from cases to cases), then you assume that the theorem holds for all $n \leq m$ (this step is called inductive hypothesis), and you show that the theorem holds for $n = m+1$. It is very easy to understand the logic behind this proof technique: once you show something works for a base case $n = m$ and it works for it's successive case $n = m+1$, then it works for any case $n' = m + 1 + \cdots + 1$. 
+    \item Proof by construction: If you cannot prove abstractly the existence of something, do it directly -- construct an example that meets all the conditions in the argument. 
+\end{enumerate}
+Sometimes people use proof by contrapositives, but I do not find it would be very useful in the context of our notes. As a result I shall not introduce other techniques and one shall master the four I listed above. 
+
+Now I present a very important theorem for you to prove. This is essential to some later topics so I would rather present it now. 
+
+\begin{THRM}{A}
+    Define function $p : X \to Q$ and function $F : X \to Z$. When does there exists a function
+$f : Q \to Z$ such that $F = f \circ p$? Show that that f exists if and only if $p(a) = p(b)$ implies $F(a) = F(b)$,
+for all $a, b$ in $X$. Moreover show that, assuming $f$ exists, that it is unique if and only if $p$ is surjective.
+\end{THRM}
+
+The proof of this theorem is left as an exercise (make sure you do it and naturalize it!!!), but remember if you are stuck feel free to try the four methods I listed above. 
+\end{document}
